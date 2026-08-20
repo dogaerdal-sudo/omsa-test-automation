@@ -5,6 +5,7 @@ import base64
 import os
 import tempfile
 from datetime import date
+from functools import lru_cache
 from pathlib import Path
 
 import streamlit as st
@@ -43,16 +44,24 @@ def qp_get(name: str, default: str='') -> str:
         return v[0] if isinstance(v, list) else str(v)
 
 
+
+@lru_cache(maxsize=1)
+def cached_logo_data_uri() -> str | None:
+    logo_path = Path(__file__).resolve().parent / 'assets' / 'armundia_group_logo.png'
+    if not logo_path.exists():
+        return None
+    encoded = base64.b64encode(logo_path.read_bytes()).decode('ascii')
+    return f'data:image/png;base64,{encoded}'
+
 def nav_shell(active: str) -> None:
     links=[]
     for key,label in NAV:
         cls='active' if key==active else ''
         links.append(f'<a class="{cls}" href="?page={key}" target="_self">{html.escape(label)}</a>')
 
-    logo_path = Path(__file__).resolve().parent / 'assets' / 'armundia_group_logo.png'
-    if logo_path.exists():
-        encoded = base64.b64encode(logo_path.read_bytes()).decode('ascii')
-        brand = f'<div class="omsa-brand"><img src="data:image/png;base64,{encoded}" alt="Armundia Group"></div>'
+    logo_uri = cached_logo_data_uri()
+    if logo_uri:
+        brand = f'<div class="omsa-brand"><img src="{logo_uri}" alt="Armundia Group"></div>'
     else:
         brand = '<div class="omsa-brand omsa-brand-fallback"><div><div class="main">ARMUNDIA GROUP</div><div class="sub">OMSA TEST AUTOMATION</div></div></div>'
 
@@ -313,8 +322,7 @@ def dashboard_network(group: str) -> None:
 
 
 def dashboard() -> None:
-    loaders=load_components('loader'); views=load_components('view'); controls=load_components('control'); runs=list_runs(200)
-    ready=sum(1 for c in loaders+views+controls if c.get('allow_generate',True))
+    loaders=load_components('loader'); views=load_components('view'); controls=load_components('control'); runs=list_runs(20)
     explore=qp_get('explore','loader').lower()
     if explore not in {'loader','view','control'}:
         explore='loader'
