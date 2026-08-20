@@ -1,0 +1,174 @@
+component_id: VI_MO_TRADES
+component_type: view
+display_name: VI MO TRADES
+implementation_status: ready
+allow_generate: true
+source_of_rules: Workbook Procedura/Instructions + validated workbook structure
+template:
+  suggested_filename: Test - VI_MO_TRADES.xlsx
+  folder: templates_local/views
+inputs:
+- id: lo_detnav_t
+  label: lo_detnav — T
+  expected_file: lo_detnav — T
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: lo_detnav T
+    start_row: 2
+    start_column: B
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: true
+    fill_helper_formulas_left: true
+  source_component: LO_DETNAV
+  role: T
+- id: lo_anagrafica_strum
+  label: lo_anagrafica_strum
+  expected_file: lo_anagrafica_strum
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: lo_anagrafica_strum
+    start_row: 2
+    start_column: A
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: true
+    fill_helper_formulas_left: true
+  source_component: LO_ANAGRAFICA_STRUM
+  role: T
+- id: vi_anagr_funds
+  label: vi_anagr_funds
+  expected_file: vi_anagr_funds
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: vi_anagr_funds
+    start_row: 2
+    start_column: A
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: true
+    fill_helper_formulas_left: true
+  source_component: VI_ANAGR_FUNDS
+  role: T
+- id: workbench_vi_mo_trades
+  label: Workbench vi_mo_trades
+  expected_file: Workbench vi_mo_trades
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: WorkBench - vi_mo_trades
+    start_row: 2
+    start_column: B
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: true
+    fill_helper_formulas_left: true
+  role: validation_export
+post_import_actions:
+- action: copy_column_values
+  source:
+    sheet: lo_detnav T
+    start_row: 2
+    header_row: 1
+    column_letter: A
+  destination:
+    sheet: perimetro vi_mo_trades
+    start_cell: A2
+  clear_destination_before_copy: true
+- action: remove_blank_values
+  sheet: perimetro vi_mo_trades
+  column: A
+  start_row: 2
+- action: copy_column_values
+  source:
+    sheet: perimetro vi_mo_trades
+    start_row: 2
+    header_row: 1
+    column_letter: A
+  destination:
+    sheet: Test - VI_MO_TRADES
+    start_cell: A2
+  clear_destination_before_copy: true
+- action: copy_column_values
+  source:
+    sheet: WorkBench - vi_mo_trades
+    start_row: 2
+    header_row: 1
+    column_letter: A
+  destination:
+    sheet: CHECK
+    start_cell: A4
+  clear_destination_before_copy: true
+excel_behavior:
+  preserve_template_formulas: true
+  preserve_template_formatting: true
+  extend_check_formulas: true
+  full_recalculation: true
+  business_logic_in_python: false
+result_behavior:
+  source_of_truth: excel_template
+  read_boolean_results: true
+  scan_formula_cells_only: true
+  sheet: CHECK
+  header_row: 3
+  data_start_row: 4
+  key_column: A
+procedure_summary:
+- lo_detnav helper key defines the vi_mo_trades perimeter.
+- Blank keys are removed before populating Test.
+- Workbench reconciliation key A → CHECK!A4.

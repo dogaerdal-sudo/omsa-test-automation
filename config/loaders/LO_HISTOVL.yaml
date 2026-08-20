@@ -1,0 +1,95 @@
+component_id: LO_HISTOVL
+component_type: loader
+display_name: Histovl
+last_procedure_update: 24/10/2024
+template:
+  suggested_filename: Test - LO_HISTOVL.xlsx
+  folder: templates_local/loaders
+inputs:
+- id: workbench_extract
+  label: Workbench lo_histovl
+  required: true
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: Workbench - lo_histovl
+    start_row: 2
+    start_column: B
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: true
+    fill_helper_formulas_left: true
+  expected_file: Workbench lo_histovl
+  status: confirmed
+- id: db_fideuram_extract
+  label: DB Fideuram lo_histovl Extract
+  required: true
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: DB - lo_histovl
+    start_row: 2
+    start_column: B
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: false
+    fill_helper_formulas_left: true
+  expected_file: DB Fideuram lo_histovl Extract
+  status: confirmed
+post_import_actions:
+- action: copy_column_values
+  source:
+    sheet: Workbench - lo_histovl
+    start_row: 2
+    header_row: 1
+    column_letter: A
+  destination:
+    sheet: CHECK
+    start_cell: A4
+  clear_destination_before_copy: true
+excel_behavior:
+  preserve_template_formulas: true
+  preserve_template_formatting: true
+  extend_check_formulas: true
+  full_recalculation: true
+  business_logic_in_python: false
+result_behavior:
+  source_of_truth: excel_template
+  check_sheet: CHECK
+  header_row: 3
+  data_start_row: 4
+  key_column: A
+  read_boolean_results: true
+  false_as_exception: true
+  formula_errors_as_error: true
+procedure_summary:
+- Scaricare "lo_histovl" in T da workbench, sostituire i "NULL" con blank e copiare e incollare i dati nello sheet "Workbench - lo_histovl" da
+  colonna B
+- In colonna A dello sheet "Workbench - lo_histovl" si genererà una chiave utile alla riconciliazione
+- Scaricare "lo_histovl" in T da DB fideuram e copiare e incollare i dati nello sheet "DB - lo_histovl" da colonna B
+- Nello sheet "CHECK" nella colonna A4 copiare i valori della colonna A dello sheet "Workbench - lo_histovl"
+implementation_status: ready
+allow_generate: true
+source_of_rules: Workbook Procedura sheet

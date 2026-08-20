@@ -1,0 +1,182 @@
+[
+  {
+    "path": "templates_local/controls/3BIS EXCEL DI CONTROLLO 2 - WORKBENCH VS EXPECTED.xlsx",
+    "size_bytes": 22147725,
+    "sha256": "82c4bc527c677c0e9780f897b0977e3e2c6ac022bddef98ad1433409b87b2606"
+  },
+  {
+    "path": "templates_local/controls/EXCEL DI CONTROLLO_CHECK_011_LIST v.0.01.xlsx",
+    "size_bytes": 57622,
+    "sha256": "b867da26032b28162169e232b8dd1639515012a35b0dc7ad06d29d38587b576c"
+  },
+  {
+    "path": "templates_local/controls/EXCEL DI CONTROLLO_Check 010 v.0.01.xlsx",
+    "size_bytes": 11565945,
+    "sha256": "7c5a4e798e50cddc5ec06dd906585ea9dd7b8a9c009212e77b7ed24eb55eb5dc"
+  },
+  {
+    "path": "templates_local/controls/EXCEL DI CONTROLLO_FBL001_V.0.03 (1).xlsb",
+    "size_bytes": 11273887,
+    "sha256": "80282a9d506d92ca707164268df85d212756af9dbba114b53ed4150b6a9aa226"
+  },
+  {
+    "path": "templates_local/controls/FBL002_Performance Contribution_Massivo_V.0.3.xlsb",
+    "size_bytes": 28914749,
+    "sha256": "fe9c65303c7224495a5d475493b5ada1ba2aa9d150fb91b9d449feedd7bf5088"
+  },
+  {
+    "path": "templates_local/controls/MTB_Excel di Controllo_Finale.xlsx",
+    "size_bytes": 16389018,
+    "sha256": "647ad85e5288eba1e949fc2fcdf48e2b2966a422c0d7d9193e80cd83a3681ec3"
+  },
+  {
+    "path": "templates_local/controls/TEST - Check006 - MV Reconciliation FTB 11JUN2026.xlsx",
+    "size_bytes": 52872733,
+    "sha256": "7e175f646edc893de690081c3f308e0f7988ab8f0d1e2ab099f1d2f52689386d"
+  },
+  {
+    "path": "templates_local/controls/TEST - FBL004 - Hedging.xlsx",
+    "size_bytes": 37241,
+    "sha256": "cf9dbbb35d0c46170318585cb103f3088e0421f9b72fe167064ab487fce7869d"
+  },
+  {
+    "path": "templates_local/controls/TEST - FBL005 - Performance Fee.xlsx",
+    "size_bytes": 86822,
+    "sha256": "ce0567ec36edad6e9b77a67e1b48715b508f8479cac87766c88bc9acfb2db82f"
+  },
+  {
+    "path": "templates_local/loaders/Test - LO_ANAGRAFICA_STRUM.xlsx",
+    "size_bytes": 13763166,
+    "sha256": "955a5057b91ae798c26ac9e18cb5cbb59a44f17e94d2308d0f2cc61b299d2f66"
+  },
+  {
+    "path": "templates_local/loaders/Test - LO_DETNAV.xlsx",
+    "size_bytes": 65044229,
+    "sha256": "63657d0db1cd7133b0880cd296e505b661b17e8c6ead8049fbfec49a1e8ef68d"
+  },
+  {
+    "path": "templates_local/loaders/Test - LO_FBL_GP3_CAMBI_WM.xlsx",
+    "size_bytes": 70010,
+    "sha256": "f7b49c4b16ab1eef1f6e8a60ad343236ca2f40a6f813a1742a2adc57a547fd2b"
+  },
+  {
+    "path": "templates_local/loaders/Test - LO_FID_BENCHMARK.xlsx",
+    "size_bytes": 229579,
+    "sha256": "c3b2157fdfdec6a61f43611f72b235f54a4be76245369c94be6061d29352b4f5"
+  },
+  {
+    "path": "templates_local/loaders/Test - LO_FONDI_A_BMK.xlsx",
+    "size_bytes": 62990,
+    "sha256": "5b4558b8db8d2a27c467c9f0a9414bce67a9444df4c1d964ed58c10caab25a0c"
+  },
+  {
+    "path": "templates_local/loaders/Test - LO_FWDPOS.xlsx",
+    "size_bytes": 3806688,
+    "sha256": "17b2a615b6845918fed6f1b2769902d3729bb853ef340bfb7617fc5dfe34a53e"
+  },
+  {
+    "path": "templates_local/loaders/Test - LO_GT_POSITION.xlsx",
+    "size_bytes": 8254856,
+    "sha256": "3d3c7cf47bc94c2b9644a9fb6f5cf328cf07caafe8df221e45f39eec6f70a25a"
+  },
+  {
+    "path": "templates_local/loaders/Test - LO_GT_TRADE.xlsx",
+    "size_bytes": 125691,
+    "sha256": "a0d5bcff1b74d39440a91086d2dbf1e7a65c45ca00891afd685a5a2b8ae16619"
+  },
+  {
+    "path": "templates_local/loaders/Test - LO_HEDGING.xlsx",
+    "size_bytes": 34954,
+    "sha256": "abbba048c90e4fff25a208eb0a5222f2893737b981872f3184a5be14d4fbb318"
+  },
+  {
+    "path": "templates_local/loaders/Test - LO_HISTOVL.xlsx",
+    "size_bytes": 128905,
+    "sha256": "9c551eedb919690032efa126a0073383d6c6bbf017ef93576e37849266b6fe84"
+  },
+  {
+    "path": "templates_local/loaders/Test - LO_INDEX_CONSTITUENTS.xlsx",
+    "size_bytes": 16729231,
+    "sha256": "7e92759d7b5edafe891ab1601fba5e7a7cbcdf208fb991f3c9df57dd00e31514"
+  },
+  {
+    "path": "templates_local/loaders/Test - LO_LIQUIDITY.xlsx",
+    "size_bytes": 8819850,
+    "sha256": "2152f55e09be7fdcc472d39e64338676d74a8f73a1214ebfb98f9ca004a43e25"
+  },
+  {
+    "path": "templates_local/loaders/Test - LO_NEW_EXCHANGE_RATES.xlsx",
+    "size_bytes": 38622,
+    "sha256": "f2cd90443b279d63d69cfffe594ffee9411368c6cd73d3c093ac80f33bdc0e3d"
+  },
+  {
+    "path": "templates_local/loaders/Test - LO_PERFORMANCE.xlsx",
+    "size_bytes": 91810,
+    "sha256": "42b0f4a6c46ac57a7d4c8580fb33ea0b1411abd5726b3392fb53a2dd5b131c32"
+  },
+  {
+    "path": "templates_local/loaders/Test - LO_POSITION_FEED.xlsx",
+    "size_bytes": 23610146,
+    "sha256": "2f0a45a8fc59db009ae9aab1537cffcb1346181fe2f3e843ac9cfabfc98a20b1"
+  },
+  {
+    "path": "templates_local/loaders/Test - LO_PRICING_REPORT.xlsx",
+    "size_bytes": 19185966,
+    "sha256": "60ce0ad6b01f23f955339f945c5baeb6e8c9f1884ec990afd56963e202e6e66b"
+  },
+  {
+    "path": "templates_local/loaders/Test - LO_TRADE_FEED.xlsx",
+    "size_bytes": 825778,
+    "sha256": "10bbb2d922003f829717f08e7271c35ce06ab135b245951fcfd1a44705a1c1b5"
+  },
+  {
+    "path": "templates_local/views/00_Test - VI_NAV_POSITIONS (FULL VERSION).xlsb",
+    "size_bytes": 97331560,
+    "sha256": "9ebc475da51dd2191129c9f233a37af76bfab5ff884b0ec23c8271f1af7c1c2c"
+  },
+  {
+    "path": "templates_local/views/Test - VI_ANAGR_FUNDS.xlsx",
+    "size_bytes": 228734,
+    "sha256": "a9d9fba36cf3ef67b1cacb88ffec6031a73879511568e34305ace588c57267f6"
+  },
+  {
+    "path": "templates_local/views/Test - VI_BENCHMARK.xlsx",
+    "size_bytes": 474369,
+    "sha256": "1abdf9538cb0d2bbb2ce771de754354511251615e3a15526b0275301033bb090"
+  },
+  {
+    "path": "templates_local/views/Test - VI_EXCHANGE_RATE.xlsx",
+    "size_bytes": 16336172,
+    "sha256": "c69de03a59e4f9132655c01210c667221639964ae5c40ef4d65ed8c57286f99d"
+  },
+  {
+    "path": "templates_local/views/Test - VI_FUNDSUM.xlsx",
+    "size_bytes": 21789843,
+    "sha256": "26deee4784393139e1acf013a45a9bbf2c7e052e707b17320e9298b05aa76893"
+  },
+  {
+    "path": "templates_local/views/Test - VI_HEDGING.xlsx",
+    "size_bytes": 217330,
+    "sha256": "afb4c8021b25de07c7744a48f6b0df130c681c3cc90c370bf591ccba9c228f4e"
+  },
+  {
+    "path": "templates_local/views/Test - VI_HISTOVL.xlsx",
+    "size_bytes": 167079,
+    "sha256": "d012c7889d7178bcdb2c7308a85dd4b1b42bb4610768feff60b4d4ee80d3c3d3"
+  },
+  {
+    "path": "templates_local/views/Test - VI_INDEPENDENT_PRICES (1).xlsx",
+    "size_bytes": 40675373,
+    "sha256": "59a5459821c16bcfe1a8ca7b1572944373c348c06b990edab0ef8c394a3ca9cd"
+  },
+  {
+    "path": "templates_local/views/Test - VI_MO_TRADES.xlsx",
+    "size_bytes": 40293735,
+    "sha256": "526c84af8d0d839de46f065f9a8ad99bb6bc347fced21ec0edb95baafe7ebf0a"
+  },
+  {
+    "path": "templates_local/views/VI PRICE CONTROLLO MACROS v2.xlsm",
+    "size_bytes": 83849665,
+    "sha256": "b685fe4472a6d76617f3c3443c0a9799acba73e693c76e2e4dae89d42556128d"
+  }
+]

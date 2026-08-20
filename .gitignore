@@ -1,0 +1,26 @@
+# Local Python
+.venv/
+__pycache__/
+*.pyc
+
+# Run-specific / generated output
+storage/runs/*
+!storage/runs/.gitkeep
+storage/templates/*
+!storage/templates/.gitkeep
+
+# Fixed business templates are intentionally local and not pushed to GitHub
+# The READY package contains them, but Git ignores them after extraction.
+templates_local/
+
+# User input files
+*.csv
+~$*.xlsx
+~$*.xlsm
+~$*.xlsb
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

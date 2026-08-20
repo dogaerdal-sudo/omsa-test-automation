@@ -1,0 +1,7 @@
+streamlit>=1.38,<2
+PyYAML>=6.0
+pandas>=2.2
+openpyxl>=3.1
+pyxlsb>=1.0.10
+pywin32>=306; platform_system == "Windows"
+xlrd>=2.0.1

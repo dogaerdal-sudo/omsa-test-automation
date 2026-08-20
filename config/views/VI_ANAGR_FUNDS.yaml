@@ -1,0 +1,94 @@
+component_id: VI_ANAGR_FUNDS
+component_type: view
+display_name: VI ANAGR FUNDS
+implementation_status: ready
+allow_generate: true
+source_of_rules: Workbook Procedura/Instructions + validated workbook structure
+template:
+  suggested_filename: Test - VI_ANAGR_FUNDS.xlsx
+  folder: templates_local/views
+inputs:
+- id: db_vi_anagr_funds
+  label: DB Fideuram vi_anagr_funds Extract
+  expected_file: DB Fideuram vi_anagr_funds Extract
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: DB - vi_anagr_funds
+    start_row: 2
+    start_column: B
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: false
+    fill_helper_formulas_left: true
+  role: T
+- id: workbench_vi_anagr_funds
+  label: Workbench vi_anagr_funds
+  expected_file: Workbench vi_anagr_funds
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: WorkBench - vi_anagr_funds
+    start_row: 2
+    start_column: B
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: false
+    fill_helper_formulas_left: true
+  source_component: VI_ANAGR_FUNDS
+  role: validation_export
+post_import_actions:
+- action: copy_column_values
+  source:
+    sheet: WorkBench - vi_anagr_funds
+    start_row: 2
+    header_row: 1
+    column_header: CHIAVE_FONDO_STRUMENTO
+  destination:
+    sheet: CHECK
+    start_cell: A4
+  clear_destination_before_copy: true
+excel_behavior:
+  preserve_template_formulas: true
+  preserve_template_formatting: true
+  extend_check_formulas: true
+  full_recalculation: true
+  business_logic_in_python: false
+result_behavior:
+  source_of_truth: excel_template
+  read_boolean_results: true
+  scan_formula_cells_only: true
+  sheet: CHECK
+  header_row: 3
+  data_start_row: 4
+  key_column: A
+procedure_summary:
+- DB Fideuram vi_anagr_funds → DB sheet from column B.
+- Workbench vi_anagr_funds → WorkBench sheet from column B.
+- CHIAVE_FONDO_STRUMENTO → CHECK!A4.

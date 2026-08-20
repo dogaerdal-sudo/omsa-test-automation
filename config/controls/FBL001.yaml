@@ -1,0 +1,143 @@
+component_id: FBL001
+component_type: control
+display_name: FBL001
+implementation_status: review
+allow_generate: true
+source_of_rules: Workbook instructions + validated workbook structure
+template:
+  suggested_filename: EXCEL DI CONTROLLO_FBL001_V.0.03 (1).xlsb
+  folder: templates_local/controls
+inputs:
+- id: nav_positions_t
+  label: NAV POSITIONS — T
+  expected_file: NAV POSITIONS — T
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: NAV POS_T_vista
+    start_row: 2
+    start_column: A
+  import_mode: contiguous
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: true
+    fill_helper_formulas_left: true
+  source_component: VI_NAV_POSITIONS
+  role: T
+- id: nav_positions_t1
+  label: NAV POSITIONS — T-1
+  expected_file: NAV POSITIONS — T-1
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: NAV POS_T-1_vista
+    start_row: 2
+    start_column: A
+  import_mode: contiguous
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: true
+    fill_helper_formulas_left: true
+  source_component: VI_NAV_POSITIONS
+  role: T-1
+- id: mo_trades_t
+  label: MO TRADES — T
+  expected_file: MO TRADES — T
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: TRADES_T_vista
+    start_row: 2
+    start_column: A
+  import_mode: contiguous
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: true
+    fill_helper_formulas_left: true
+  source_component: VI_MO_TRADES
+  role: T
+- id: fbl001_workbench
+  label: FBL001 Workbench Control Result
+  expected_file: FBL001 Workbench Control Result
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: CONTROLLO_WORKBENCH
+    start_row: 2
+    start_column: A
+  import_mode: contiguous
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: true
+    fill_helper_formulas_left: true
+  role: control_result
+post_import_actions: []
+excel_behavior:
+  preserve_template_formulas: true
+  preserve_template_formatting: true
+  extend_check_formulas: true
+  full_recalculation: true
+  business_logic_in_python: false
+result_behavior:
+  source_of_truth: excel_template
+  read_boolean_results: true
+  scan_formula_cells_only: true
+  sheet: CONTROLLO_WORKBENCH
+  header_row: 1
+  data_start_row: 2
+  key_column: A
+procedure_summary:
+- The workbook COVER names BENCHMARK and ANAGR_FUNDS as logical sources, but no dedicated sheets exist for them.
+- Explicit paste instructions require NAV POS T/T-1, MO_TRADES T and the FBL001 Workbench control result.

@@ -1,0 +1,95 @@
+component_id: LO_PERFORMANCE
+component_type: loader
+display_name: Performance
+last_procedure_update: 18/06/2025
+template:
+  suggested_filename: Test - LO_PERFORMANCE.xlsx
+  folder: templates_local/loaders
+inputs:
+- id: db_fideuram_extract
+  label: DB Fideuram Performance Extract
+  required: true
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: DB - lo_performance
+    start_row: 2
+    start_column: A
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: false
+    fill_helper_formulas_left: true
+  expected_file: DB Fideuram Performance Extract
+  status: confirmed
+- id: workbench_extract
+  label: Workbench lo_performance
+  required: true
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: Workbench - lo_performance
+    start_row: 2
+    start_column: A
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: true
+    fill_helper_formulas_left: true
+  expected_file: Workbench lo_performance
+  status: confirmed
+post_import_actions:
+- action: copy_column_values
+  source:
+    sheet: Workbench - lo_performance
+    start_row: 2
+    header_row: 1
+    column_header: COD_COMP_CLASS
+  destination:
+    sheet: CHECK
+    start_cell: A4
+  clear_destination_before_copy: true
+excel_behavior:
+  preserve_template_formulas: true
+  preserve_template_formatting: true
+  extend_check_formulas: true
+  full_recalculation: true
+  business_logic_in_python: false
+result_behavior:
+  source_of_truth: excel_template
+  check_sheet: CHECK
+  header_row: 3
+  data_start_row: 4
+  key_column: A
+  read_boolean_results: true
+  false_as_exception: true
+  formula_errors_as_error: true
+procedure_summary:
+- Scaricare da DB Fideuram tramite l'apposita query, i dati del loader delle performance e copiarli nello sheet "DB - lo_performance" da colonna
+  A
+- Scaricare da Workbench i dati del loader delle performance, sostituire i campi 'NULL' con blank e copiarli nello sheet "WorkBench - lo_performance"
+  da colonna A
+- Copiare i valori della colonna E "COD_COMP_CLASS" da "WorkBench - lo_performance" nello sheet CHECK da cella A4
+implementation_status: ready
+allow_generate: true
+source_of_rules: Workbook Procedura sheet

@@ -1,0 +1,338 @@
+component_id: VI_NAV_POSITIONS
+component_type: view
+display_name: VI NAV POSITIONS
+implementation_status: review
+allow_generate: true
+source_of_rules: Workbook Procedura/Instructions + validated workbook structure
+template:
+  suggested_filename: 00_Test - VI_NAV_POSITIONS (FULL VERSION).xlsb
+  folder: templates_local/views
+inputs:
+- id: lo_detnav_t
+  label: DB Fideuram lo_detnav — T
+  expected_file: DB Fideuram lo_detnav — T
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: lo_detnav T
+    start_row: 2
+    start_column: B
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: false
+    fill_helper_formulas_left: true
+  source_component: LO_DETNAV
+  role: T
+- id: lo_detnav_t1
+  label: DB Fideuram lo_detnav — T-1
+  expected_file: DB Fideuram lo_detnav — T-1
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: lo_detnav T-1
+    start_row: 2
+    start_column: B
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: false
+    fill_helper_formulas_left: true
+  source_component: LO_DETNAV
+  role: T-1
+- id: lo_fwdpos_t
+  label: DB Fideuram lo_fwdpos — T
+  expected_file: DB Fideuram lo_fwdpos — T
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: lo_fwdpos T
+    start_row: 2
+    start_column: B
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: false
+    fill_helper_formulas_left: true
+  source_component: LO_FWDPOS
+  role: T
+- id: lo_fwdpos_t1
+  label: DB Fideuram lo_fwdpos — T-1
+  expected_file: DB Fideuram lo_fwdpos — T-1
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: lo_fwdpos T-1
+    start_row: 2
+    start_column: B
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: false
+    fill_helper_formulas_left: true
+  source_component: LO_FWDPOS
+  role: T-1
+- id: vi_anagr_funds
+  label: DB Fideuram vi_anagr_funds
+  expected_file: DB Fideuram vi_anagr_funds
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: vi_anagr_funds
+    start_row: 2
+    start_column: A
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: false
+    fill_helper_formulas_left: true
+  source_component: VI_ANAGR_FUNDS
+  role: T
+- id: lo_anagrafica_strum
+  label: DB Fideuram lo_anagrafica_strum
+  expected_file: DB Fideuram lo_anagrafica_strum
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: lo_anagrafica_strum
+    start_row: 2
+    start_column: A
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: false
+    fill_helper_formulas_left: true
+  source_component: LO_ANAGRAFICA_STRUM
+  role: T
+- id: vi_nav_cash_t
+  label: Workbench vi_nav_cash — T
+  expected_file: Workbench vi_nav_cash — T
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: vi_nav_cash T
+    start_row: 2
+    start_column: A
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: false
+    fill_helper_formulas_left: true
+  role: T
+- id: vi_nav_cash_t1
+  label: Workbench vi_nav_cash — T-1
+  expected_file: Workbench vi_nav_cash — T-1
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: vi_nav_cash T-1
+    start_row: 2
+    start_column: A
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: false
+    fill_helper_formulas_left: true
+  role: T-1
+- id: vi_price_t
+  label: Workbench vi_price — T
+  expected_file: Workbench vi_price — T
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: vi_price
+    start_row: 2
+    start_column: A
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: false
+    fill_helper_formulas_left: true
+  source_component: VI_PRICE
+  role: T
+- id: workbench_vi_nav_positions
+  label: Workbench vi_nav_positions
+  expected_file: Workbench vi_nav_positions
+  required: true
+  status: confirmed
+  accepted_formats:
+  - csv
+  - xlsx
+  - xls
+  - xlsb
+  source:
+    sheet_index: 1
+    header_row: 1
+    start_row: 2
+    start_column: A
+  destination:
+    sheet: Workbench - vi_nav_positions
+    start_row: 2
+    start_column: A
+  import_rules:
+    skip_source_header: true
+    clear_existing_data: true
+    paste_values: true
+    paste_formats: true
+    replace_literal_NULL_with_blank: false
+    fill_helper_formulas_left: true
+  role: validation_export
+post_import_actions:
+- action: copy_column_values
+  source:
+    sheet: lo_detnav T
+    start_row: 2
+    header_row: 1
+    column_letter: A
+  destination:
+    sheet: perimeter vi_nav_positions
+    start_cell: A2
+  clear_destination_before_copy: true
+  unique: true
+- action: copy_column_values
+  source:
+    sheet: perimeter vi_nav_positions
+    start_row: 2
+    header_row: 1
+    column_letter: A
+  destination:
+    sheet: TEST - vi_nav_positions
+    start_cell: A2
+  clear_destination_before_copy: true
+- action: copy_column_values
+  source:
+    sheet: Workbench - vi_nav_positions
+    start_row: 2
+    header_row: 1
+    column_letter: B
+  destination:
+    sheet: CHECK
+    start_cell: A4
+  clear_destination_before_copy: true
+excel_behavior:
+  preserve_template_formulas: true
+  preserve_template_formatting: true
+  extend_check_formulas: true
+  full_recalculation: true
+  business_logic_in_python: false
+result_behavior:
+  source_of_truth: excel_template
+  read_boolean_results: true
+  scan_formula_cells_only: true
+  sheet: CHECK
+  header_row: 3
+  data_start_row: 4
+  key_column: A
+procedure_summary:
+- Upload DB T/T-1 detnav and fwdpos extracts plus supporting views and Workbench vi_nav_positions.
+- lo_detnav T key → distinct perimeter → TEST A.
+- Workbench vi_nav_positions column B → CHECK!A4.
+- XLSB processing requires native Excel and should be validated first on Windows.
