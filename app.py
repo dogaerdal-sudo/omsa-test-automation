@@ -5,6 +5,9 @@ import hmac
 import base64
 import os
 import tempfile
+import secrets
+import time
+from urllib.parse import urlencode
 from datetime import date
 from functools import lru_cache
 from pathlib import Path
@@ -25,8 +28,82 @@ CSS = '<style>\n:root {--navy:#12344a;--navy-2:#1d5967;--teal:#3e969f;--teal-sof
 st.markdown(CSS, unsafe_allow_html=True)
 
 
+
+AUTH_TOKEN_TTL_SECONDS = 12 * 60 * 60
+
+
+@st.cache_resource
+def _omsa_auth_registry():
+    # Opaque random token -> expiry timestamp.
+    # st.cache_resource persists across Streamlit reruns/browser sessions
+    # while the same app process is alive.
+    return {}
+
+
+def _query_auth_token() -> str:
+    try:
+        value = st.query_params.get("auth", "")
+        if isinstance(value, list):
+            return str(value[0]) if value else ""
+        return str(value or "")
+    except Exception:
+        try:
+            values = st.experimental_get_query_params().get("auth", [""])
+            return str(values[0]) if values else ""
+        except Exception:
+            return ""
+
+
+def _valid_auth_token(token: str) -> bool:
+    if not token:
+        return False
+
+    registry = _omsa_auth_registry()
+    now = time.time()
+    expiry = registry.get(token)
+
+    expired = [key for key, exp in registry.items() if exp <= now]
+    for key in expired:
+        registry.pop(key, None)
+
+    if expiry is None or expiry <= now:
+        return False
+
+    # Sliding 12-hour inactivity timeout.
+    registry[token] = now + AUTH_TOKEN_TTL_SECONDS
+    return True
+
+
+def _create_auth_token() -> str:
+    token = secrets.token_urlsafe(32)
+    _omsa_auth_registry()[token] = time.time() + AUTH_TOKEN_TTL_SECONDS
+    return token
+
+
+def internal_href(page: str, **params) -> str:
+    query = {"page": page}
+
+    for key, value in params.items():
+        if value is not None and str(value) != "":
+            query[key] = str(value)
+
+    token = _query_auth_token()
+    if token:
+        query["auth"] = token
+
+    return "?" + urlencode(query)
+
+
 def require_login() -> None:
     if st.session_state.get("omsa_authenticated", False):
+        return
+
+    # HTML module links cause a full page reload. The opaque auth token
+    # lets the new Streamlit session continue without asking for the
+    # application password again.
+    existing_token = _query_auth_token()
+    if _valid_auth_token(existing_token):
+        st.session_state["omsa_authenticated"] = True
         return
 
     logo_path = Path(__file__).resolve().parent / "assets" / "armundia_group_logo.png"
@@ -202,6 +279,8 @@ def require_login() -> None:
             st.error("Application password has not been configured.")
         elif hmac.compare_digest(password, expected):
             st.session_state["omsa_authenticated"] = True
+            token = _create_auth_token()
+            st.query_params["auth"] = token
             st.rerun()
         else:
             st.error("Incorrect password.")
@@ -246,7 +325,8 @@ def nav_shell(active: str) -> None:
     links=[]
     for key,label in NAV:
         cls='active' if key==active else ''
-        links.append(f'<a class="{cls}" href="?page={key}" target="_self">{html.escape(label)}</a>')
+        href = html.escape(internal_href(key), quote=True)
+        links.append(f'<a class="{cls}" href="{href}" target="_self">{html.escape(label)}</a>')
 
     logo_uri = cached_logo_data_uri()
     if logo_uri:
@@ -287,7 +367,7 @@ def module_table(component_type: str, page_key: str) -> None:
         info=template_info(c['component_id'])
         template=info['filename'] if info else 'Missing template'
         status,cls=status_label(c)
-        href=f'?page={page_key}&component={html.escape(c["component_id"])}'
+        href=html.escape(internal_href(page_key, component=c["component_id"]), quote=True)
         rows.append(
             '<tr>'
             f'<td><b>{html.escape(c["display_name"])}</b><div style="font-size:10px;color:#77818a">{html.escape(c["component_id"])}</div></td>'
@@ -309,7 +389,8 @@ def component_detail(component_id: str, page_key: str) -> None:
     comp=load_component(component_id)
     info=template_info(component_id)
     st.markdown('<div class="omsa-body">', unsafe_allow_html=True)
-    st.markdown(f'<div class="breadcrumb"><a target="_self" href="?page={page_key}">← Back to {page_key.title()}</a></div>', unsafe_allow_html=True)
+    back_href = html.escape(internal_href(page_key), quote=True)
+    st.markdown(f'<div class="breadcrumb"><a target="_self" href="{back_href}">← Back to {page_key.title()}</a></div>', unsafe_allow_html=True)
 
     if info:
         st.markdown(
@@ -505,7 +586,7 @@ def dashboard_network(group: str) -> None:
         if not input_nodes:
             input_nodes=['<span class="input-node">No configured inputs</span>']
         status,_=status_label(comp)
-        href=f'?page={page_key}&component={html.escape(comp["component_id"])}'
+        href=html.escape(internal_href(page_key, component=comp["component_id"]), quote=True)
         cards.append('<div class="network-card"><div class="network-title-row">' + f'<div><a class="network-title" target="_self" href="{href}">{html.escape(comp["display_name"])}</a><div class="network-template">{html.escape(template)}</div></div>' + f'<div class="network-count">{len(comp.get("inputs",[]))} upload fields</div></div>' + '<div class="flow-line">' + f'<div class="input-node-wrap">{"".join(input_nodes)}</div><div class="flow-arrow">→</div><div class="template-node">{html.escape(comp["display_name"])}<br>Fixed Excel Template</div></div>' + f'<div class="network-footer"><span>Status: {html.escape(status)}</span><span>Excel formulas remain source of truth</span></div></div>')
     st.markdown(f'<div class="network-grid">{"".join(cards)}</div>', unsafe_allow_html=True)
 
@@ -518,7 +599,8 @@ def dashboard() -> None:
     st.markdown('<div class="dashboard-intro"><div><h1>OMSA Test Automation</h1><p>Select a template group to explore the components and the files required to populate each workbook.</p></div><div class="dashboard-badge">Fixed templates · Run-specific uploads · Native Excel logic</div></div>', unsafe_allow_html=True)
     def card(key: str, value: int, label: str, hint: str) -> str:
         active=' active' if explore==key else ''
-        return f'<a class="kpi-link" target="_self" href="?page=dashboard&explore={key}"><div class="kpi{active}"><div class="v">{value}</div><div class="l">{label}</div><div class="hint">{hint}</div></div></a>'
+        href = html.escape(internal_href("dashboard", explore=key), quote=True)
+        return f'<a class="kpi-link" target="_self" href="{href}"><div class="kpi{active}"><div class="v">{value}</div><div class="l">{label}</div><div class="hint">{hint}</div></div></a>'
     st.markdown('<div class="kpi-row">' + card('loader',len(loaders),'Loader Templates','Click to see loaders and their required upload files') + card('view',len(views),'View Templates','Click to see views and their Loader/View inputs') + card('control',len(controls),'Control Templates','Click to see controls and their required inputs') + '</div>', unsafe_allow_html=True)
     st.markdown('<div class="card-lite"><b>Operating model</b><br><span style="display:inline-block;margin-top:7px">Choose component → upload every named run-specific source file → populate a copy of the fixed Excel template → extend existing helper/check formulas where configured → recalculate in Microsoft Excel → download the completed workbook.</span></div>', unsafe_allow_html=True)
     dashboard_network(explore)
