@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import html
+import hmac
 import base64
 import os
 import tempfile
@@ -22,6 +23,194 @@ st.set_page_config(page_title='OMSA Test Automation', page_icon='📊', layout='
 
 CSS = '<style>\n:root {--navy:#12344a;--navy-2:#1d5967;--teal:#3e969f;--teal-soft:#c9ddd8;--page:#e7e8e8;--text:#16252e;--muted:#667681;--blue:#3477c8;--blue-hover:#2866b2;--amber:#996300;--red:#b42318;}\nheader[data-testid="stHeader"] {height:0;visibility:hidden;} footer {visibility:hidden;} [data-testid="stSidebar"] {display:none;}\n.stApp {background:var(--page);color:var(--text);font-size:15px;} .block-container {max-width:100%;padding:0 28px 3.2rem 28px;}\n.omsa-topbar {height:92px;background:#fff;border-bottom:1px solid #d9ddde;width:calc(100% + 56px);margin-left:-28px;display:flex;align-items:center;padding:0 30px;box-sizing:border-box;position:relative;}\n.omsa-brand {position:absolute;left:30px;top:50%;transform:translateY(-50%);width:210px;display:flex;align-items:center;} .omsa-brand img {width:175px;max-height:58px;object-fit:contain;object-position:left center;display:block;} .omsa-brand-fallback .main {font-size:22px;font-weight:750;color:#df1748;} .omsa-brand-fallback .sub {font-size:11px;color:#6a6a6a;margin-top:4px;letter-spacing:.5px;}\n.omsa-nav {position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;gap:24px;align-items:center;justify-content:center;} .omsa-nav a {color:#111;text-decoration:none;font-size:15px;font-weight:500;padding:14px 16px;border-radius:8px;white-space:nowrap;} .omsa-nav a:hover {background:#f0f2f2;} .omsa-nav a.active {background:#eeeeef;color:#2f8d96;font-weight:650;}\n.omsa-sectionbar {height:66px;width:calc(100% + 56px);margin-left:-28px;display:flex;align-items:center;padding:0 30px;box-sizing:border-box;background:linear-gradient(90deg,var(--navy) 0%,var(--navy-2) 43%,var(--teal) 100%);color:#fff;font-size:19px;font-weight:700;border-bottom:1px solid rgba(0,0,0,.08);} .omsa-body {padding-top:20px;} div[data-testid="stVerticalBlock"] {gap:.85rem;}\n.omsa-table-wrap {background:#fff;border-radius:4px;overflow:auto;width:100%;border:1px solid #d7dbdd;box-shadow:none;} table.omsa-table {width:100%;border-collapse:collapse;font-size:14px;min-width:940px;} .omsa-table th {background:var(--teal-soft);color:#21343b;text-align:left;font-weight:650;padding:9px 10px;border-right:1px solid #b7cbc6;white-space:nowrap;font-size:13px;} .omsa-table td {background:#fff;padding:9px 10px;border-top:1px solid #e0e4e5;border-right:1px solid #e0e4e5;vertical-align:middle;min-height:38px;} .omsa-table tr:hover td {background:#f5f8f7;} .omsa-table td.center,.omsa-table th.center{text-align:center;}\n.launch-btn {display:inline-block;background:var(--blue);color:#fff!important;text-decoration:none!important;padding:7px 14px;border-radius:4px;font-size:13px;min-width:170px;text-align:center;font-weight:600;} .launch-btn:hover {background:var(--blue-hover);} .status {font-style:italic;font-weight:650;} .status.ready {color:#202629;} .status.review {color:var(--amber);} .status.blocked {color:var(--red);}\n.breadcrumb {font-size:14px;margin:18px 0 12px 0;} .breadcrumb a {color:#2e6ea7;text-decoration:none;font-weight:550;} .info-strip {background:#fff;border:1px solid #d2d7d9;border-left:4px solid var(--teal);padding:14px 16px;margin-bottom:16px;display:flex;gap:34px;align-items:center;width:100%;box-sizing:border-box;} .info-strip .label {color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.45px;} .info-strip .value {font-size:15px;font-weight:650;margin-top:3px;} .upload-head {background:var(--teal-soft);padding:10px 12px;font-size:14px;font-weight:700;border:1px solid #bdcfcb;border-bottom:0;width:100%;box-sizing:border-box;} .mapping,.rule-note {font-size:13px;color:#53636c;margin:5px 0 0 2px;} .small-tag {display:inline-block;padding:3px 8px;border-radius:12px;background:#eef2f4;color:#52606a;font-size:11px;margin-left:8px;} .small-tag.warn {background:#fff3d6;color:#8a5a00;} .small-tag.ok {background:#e8f5ed;color:#216e47;}\n.dashboard-intro {display:flex;justify-content:space-between;align-items:flex-end;gap:22px;margin:22px 0 18px 0;} .dashboard-intro h1 {font-size:27px;line-height:1.2;margin:0;color:#17313f;} .dashboard-intro p {font-size:15px;color:#667681;margin:7px 0 0 0;} .dashboard-badge {background:#fff;border:1px solid #d4dadc;border-radius:4px;padding:10px 14px;font-size:13px;color:#596a74;white-space:nowrap;}\n.kpi-row {display:grid;grid-template-columns:repeat(3,minmax(220px,1fr));gap:14px;width:100%;margin-bottom:18px;} .kpi-link {text-decoration:none!important;color:inherit!important;} .kpi {background:#fff;border:1px solid #d2d8da;padding:18px 18px 16px;border-radius:4px;min-height:112px;box-sizing:border-box;transition:.15s ease;} .kpi-link:hover .kpi {transform:translateY(-1px);border-color:#9dbec0;box-shadow:0 3px 10px rgba(26,61,72,.08);} .kpi.active {border-top:4px solid var(--teal);padding-top:15px;background:#fbfdfd;} .kpi .v {font-size:31px;font-weight:750;color:#18323f;line-height:1;} .kpi .l {font-size:15px;font-weight:650;color:#344a55;margin-top:9px;} .kpi .hint {font-size:12px;color:#7a888f;margin-top:6px;line-height:1.35;} .card-lite {background:#fff;border:1px solid #d5dbde;padding:16px 18px;border-radius:4px;width:100%;box-sizing:border-box;font-size:14px;} .dashboard-section-title {font-size:19px;font-weight:750;color:#18323f;margin:24px 0 5px 0;} .dashboard-section-sub {font-size:14px;color:#6b7981;margin-bottom:14px;}\n.network-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;width:100%;} .network-card {background:#fff;border:1px solid #d3d9db;border-radius:5px;padding:15px 16px;min-height:170px;box-sizing:border-box;} .network-card:hover {border-color:#a9c7c7;box-shadow:0 2px 8px rgba(26,61,72,.06);} .network-title-row {display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:13px;} .network-title {font-size:16px;font-weight:750;color:#173542;text-decoration:none!important;} .network-title:hover {color:#2d7d86;} .network-template {font-size:12px;color:#6d7b82;margin-top:3px;max-width:520px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;} .network-count {background:#edf5f3;border:1px solid #c8ddd8;border-radius:12px;padding:4px 9px;font-size:11px;color:#35656a;white-space:nowrap;} .flow-line {display:grid;grid-template-columns:minmax(0,1fr) 34px minmax(150px,.55fr);gap:9px;align-items:center;} .input-node-wrap {display:flex;flex-wrap:wrap;gap:7px;align-items:center;} .input-node {background:#f6f8f8;border:1px solid #d5dcde;border-radius:3px;padding:6px 8px;font-size:12px;color:#354b56;line-height:1.2;} .input-node strong {display:block;font-size:11px;color:#22717a;font-weight:650;margin-bottom:2px;} .flow-arrow {font-size:25px;color:#80a6a8;text-align:center;font-weight:300;} .template-node {background:linear-gradient(135deg,#17384b,#347d84);color:#fff;border-radius:4px;padding:12px 10px;text-align:center;font-size:12px;line-height:1.3;min-height:58px;display:flex;align-items:center;justify-content:center;} .network-footer {margin-top:12px;padding-top:10px;border-top:1px solid #edf0f1;font-size:12px;color:#748187;display:flex;justify-content:space-between;gap:10px;}\n.stButton>button {background:var(--blue);color:#fff;border:0;border-radius:4px;font-size:14px;padding:.58rem 1.05rem;font-weight:600;} .stButton>button:hover {background:var(--blue-hover);color:#fff;border:0;} .stDownloadButton>button {background:var(--blue);color:#fff;border:0;border-radius:4px;font-size:14px;} [data-testid="stFileUploader"] {background:#fff;border:1px solid #d5dbde;padding:11px;border-radius:0 0 4px 4px;width:100%;box-sizing:border-box;} [data-testid="stFileUploaderDropzone"] {background:#fafbfb;border:1px dashed #aeb8bd;min-height:88px;} [data-testid="stDateInput"] {max-width:240px;} [data-testid="stDataFrame"] {background:#fff;border:1px solid #d7dbdd;} .stSelectbox,.stTextInput,.stDateInput {font-size:14px;} .stAlert {border-radius:4px;}\n@media (max-width:1100px) {.omsa-brand {width:220px;min-width:220px;} .omsa-brand img {width:150px;} .omsa-nav {gap:4px;} .omsa-nav a {font-size:13px;padding:12px 9px;} .kpi-row {grid-template-columns:repeat(2,1fr);} .network-grid {grid-template-columns:1fr;}}\n</style>'
 st.markdown(CSS, unsafe_allow_html=True)
+
+
+def require_login() -> None:
+    if st.session_state.get("omsa_authenticated", False):
+        return
+
+    logo_path = Path(__file__).resolve().parent / "assets" / "armundia_group_logo.png"
+    bg_path = Path(__file__).resolve().parent / "assets" / "omsa_login_background.png"
+
+    logo_html = ""
+    if logo_path.exists():
+        encoded = base64.b64encode(logo_path.read_bytes()).decode("ascii")
+        logo_html = f'<img src="data:image/png;base64,{encoded}" alt="Armundia Group">'
+
+    bg_css = ""
+    if bg_path.exists():
+        bg_encoded = base64.b64encode(bg_path.read_bytes()).decode("ascii")
+        bg_css = f"url('data:image/png;base64,{bg_encoded}')"
+
+    st.markdown(
+        f'''
+        <style>
+        [data-testid="stHeader"],
+        [data-testid="stToolbar"],
+        #MainMenu,
+        footer {{
+            display: none !important;
+        }}
+
+        .stApp {{
+            background:
+                linear-gradient(rgba(12,49,60,.20), rgba(7,33,43,.35)),
+                {bg_css} center center / cover no-repeat fixed !important;
+        }}
+
+        .block-container {{
+            max-width: 100% !important;
+            padding: 0 !important;
+        }}
+
+        .omsa-login-header {{
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 82px;
+            background: #ffffff;
+            border-bottom: 1px solid #d9dede;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            box-sizing: border-box;
+        }}
+
+        .omsa-login-header img {{
+            width: 145px;
+            max-height: 57px;
+            object-fit: contain;
+        }}
+
+        .omsa-login-title-wrap {{
+            position: fixed;
+            top: 31%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(620px, 84vw);
+            text-align: center;
+            z-index: 20;
+            color: #ffffff;
+            text-shadow: 0 2px 9px rgba(0,0,0,.25);
+        }}
+
+        .omsa-login-title {{
+            font-size: 34px;
+            line-height: 1.15;
+            font-weight: 650;
+            margin-bottom: 8px;
+        }}
+
+        .omsa-login-subtitle {{
+            font-size: 15px;
+            font-weight: 400;
+            opacity: .92;
+        }}
+
+        [data-testid="stForm"] {{
+            position: fixed !important;
+            top: 43% !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            width: min(430px, 82vw) !important;
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+            z-index: 30 !important;
+        }}
+
+        [data-testid="stTextInput"] label {{
+            color: #ffffff !important;
+            font-size: 14px !important;
+            font-weight: 550 !important;
+            text-shadow: 0 1px 4px rgba(0,0,0,.28);
+        }}
+
+        [data-testid="stTextInput"] input {{
+            height: 52px !important;
+            background: rgba(15,44,54,.72) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255,255,255,.72) !important;
+            border-radius: 5px !important;
+            font-size: 16px !important;
+            padding-left: 16px !important;
+            backdrop-filter: blur(5px);
+        }}
+
+        [data-testid="stTextInput"] input::placeholder {{
+            color: rgba(255,255,255,.72) !important;
+        }}
+
+        [data-testid="stFormSubmitButton"] button {{
+            height: 50px !important;
+            width: 100% !important;
+            margin-top: 10px !important;
+            background: #2d8790 !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255,255,255,.34) !important;
+            border-radius: 5px !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,.14) !important;
+        }}
+
+        [data-testid="stFormSubmitButton"] button:hover {{
+            background: #236f78 !important;
+            border-color: #ffffff !important;
+        }}
+
+        [data-testid="stAlert"] {{
+            position: fixed !important;
+            top: calc(43% + 145px) !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            width: min(430px, 82vw) !important;
+            z-index: 40 !important;
+            border-radius: 4px !important;
+        }}
+        </style>
+
+        <div class="omsa-login-header">
+            {logo_html}
+        </div>
+
+        <div class="omsa-login-title-wrap">
+            <div class="omsa-login-title">OMSA Test Automation</div>
+            <div class="omsa-login-subtitle">Secure access to Loader, View and Control automation</div>
+        </div>
+        ''',
+        unsafe_allow_html=True,
+    )
+
+    with st.form("omsa_login_form"):
+        password = st.text_input(
+            "Password",
+            type="password",
+            placeholder="Enter application password",
+        )
+        submitted = st.form_submit_button(
+            "Sign In",
+            use_container_width=True,
+        )
+
+    if submitted:
+        expected = st.secrets.get("APP_PASSWORD", "")
+        if not expected:
+            st.error("Application password has not been configured.")
+        elif hmac.compare_digest(password, expected):
+            st.session_state["omsa_authenticated"] = True
+            st.rerun()
+        else:
+            st.error("Incorrect password.")
+
+    st.stop()
+
+
+require_login()
+
 
 NAV = [
     ('dashboard','Dashboard'),
